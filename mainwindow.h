@@ -25,7 +25,6 @@ private:
     Ui::MainWindow *ui;
     QMessageBox *callScreen;
     ContactListProvider * contactListProvider;
-    QStringListModel *model;
     void fillListWidgetView(const QVector<QPair<QString, QString>> &list);
     QIcon getItemIcon(const QString &path);
     const int listItemSize = 50;
