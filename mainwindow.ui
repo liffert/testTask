@@ -19,6 +19,13 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
+     <widget class="QLineEdit" name="searchLine">
+      <property name="placeholderText">
+       <string>Search line. Put your text here.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QListWidget" name="ContactListWidgetModel"/>
     </item>
    </layout>
