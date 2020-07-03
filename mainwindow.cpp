@@ -32,15 +32,16 @@ void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list
         QListWidgetItem *item = new QListWidgetItem();
         
         QImage image(iter.second);
+        image = image.scaled(iconSize, iconSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         QSize size = image.size();
         
-        const int diametr = size.height() > size.width() ? size.height() : size.width(); 
+
         QPixmap map(size);
         map.fill(Qt::GlobalColor::transparent);
         QPainter painter(&map);
         painter.setBrush(image);
         painter.setPen(Qt::GlobalColor::white);
-        painter.drawRoundedRect(0, 0, diametr, diametr, diametr / 2, diametr / 2);
+        painter.drawRoundedRect(0, 0, iconSize, iconSize, iconSize / 2, iconSize / 2);
         item->setIcon(QIcon(map));
         
         
