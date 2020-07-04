@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow) {
     
+    ui->setupUi(this);
     itemButtonSizeGridMode.setWidth(20);
     itemButtonSizeGridMode.setHeight(20);
     itemButtonSizeListMode.setWidth(50);
@@ -20,13 +21,17 @@ MainWindow::MainWindow(QWidget *parent)
     gridItemZize.setHeight(100);
     
     favorite = new Database("db.Favorite");
+    alphabeticalJump = new AlphabeticalJump();
     
-    ui->setupUi(this);
+    contactListProvider = new ContactListProvider();
+    auto contactList = contactListProvider->getActualContactList();
+    auto letters = alphabeticalJump->getAvaliableLetters(contactList);
+    setAlphabeticalJumbButtomBlock(letters);
+    
     callScreen = new QMessageBox(this);
     callScreen->setStandardButtons(QMessageBox::Cancel);
     
-    contactListProvider = new ContactListProvider();
-    fillListWidgetView(contactListProvider->getActualContactList());
+    fillListWidgetView(contactList);
     ui->ContactListWidgetModel->setSpacing(1);
     ui->ContactListWidgetModel->setIconSize(QSize(iconSize, iconSize));
     setListView();
@@ -38,6 +43,7 @@ MainWindow::~MainWindow() {
     delete ui;
     delete contactListProvider;
     delete callScreen;
+    delete alphabeticalJump;
 }
 
 void MainWindow::fillListWidgetView(const QVector<Contact> &list) {
@@ -66,6 +72,15 @@ void MainWindow::fillListWidgetView(const QVector<Contact> &list) {
     favorite->rebuildDatabase(actualContactList);
 }
 
+void MainWindow::setAlphabeticalJumbButtomBlock(const QVector<char> &letters) {
+    for(const char &iter : letters){
+        QPushButton *but = new QPushButton(QString(iter));
+        connect(but, SIGNAL(clicked()), this, SLOT(on_Aplhabetical_buttonClicked()));
+        ui->alphabeticalJump->addWidget(but);
+    }
+    
+}
+
 void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize) {
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
         ui->ContactListWidgetModel->item(i)->setSizeHint(size);
@@ -92,7 +107,7 @@ void MainWindow::on_searchLine_textEdited(const QString &arg1) {
         }
     }
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
-        if(ui->ContactListWidgetModel->item(i)->text().toLower().toStdString().find(arg1.toLower().toStdString()) == std::string::npos){
+        if(ui->ContactListWidgetModel->item(i)->text().toUpper().toStdString().find(arg1.toUpper().toStdString()) == std::string::npos){
             ui->ContactListWidgetModel->item(i)->setHidden(true);
         }
         else {
@@ -193,4 +208,14 @@ void MainWindow::on_ContactListWidgetModel_itemClicked(QListWidgetItem *item) {
     callScreen->hide();
     
     item->setSelected(false);
+}
+
+void MainWindow::on_Aplhabetical_buttonClicked() {
+    char letter = qobject_cast<QPushButton *>(sender())->text().front().unicode();
+    for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
+        if(ui->ContactListWidgetModel->item(i)->text().toUpper().front().unicode() == letter){
+            ui->ContactListWidgetModel->setCurrentRow(i);
+            break;
+        }
+    }
 }

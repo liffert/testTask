@@ -7,6 +7,7 @@
 #include "database.h"
 #include "customitem.h"
 #include "contact.h"
+#include "alphabeticaljump.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,15 +26,17 @@ private slots:
     void on_changeView_clicked();
     void favorite_button_clicked();
     void on_showFavorite_clicked();
-    
     void on_ContactListWidgetModel_itemClicked(QListWidgetItem *item);
+    void on_Aplhabetical_buttonClicked();
     
 private:  
     Ui::MainWindow *ui;
     QMessageBox *callScreen;
     ContactListProvider * contactListProvider;
     Database * favorite;
+    AlphabeticalJump * alphabeticalJump;
     void fillListWidgetView(const QVector<Contact> &list);
+    void setAlphabeticalJumbButtomBlock(const QVector<char> &letters);
     QIcon getItemIcon(const QString &path);
     QSize listItemSize;
     QSize gridItemZize;
