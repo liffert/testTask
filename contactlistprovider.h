@@ -1,13 +1,14 @@
 #pragma once
 #include <QtCore>
 #include <atomic>
+#include "contact.h"
 
 class ContactListProvider {
 private:
-    QVector<QPair<QString, QString>> list;
+    QVector<Contact> list;
     std::atomic<bool> callState;
 public:
-    QVector<QPair<QString, QString>> getActualContactList();
+    QVector<Contact> getActualContactList();
     ContactListProvider();
     void call(int id);
     void endCall();
