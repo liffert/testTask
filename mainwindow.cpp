@@ -15,6 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     itemButtonSizeGridMode.setHeight(20);
     itemButtonSizeListMode.setWidth(50);
     itemButtonSizeListMode.setHeight(50);
+    alphabeticalJumpButtonSize.setWidth(45);
+    alphabeticalJumpButtonSize.setHeight(45);
+    
     listItemSize.setWidth(50);
     listItemSize.setHeight(50);
     gridItemZize.setWidth(100);
@@ -31,11 +34,10 @@ MainWindow::MainWindow(QWidget *parent)
     callScreen = new QMessageBox(this);
     callScreen->setStandardButtons(QMessageBox::Cancel);
     
-    fillListWidgetView(contactList);
     ui->ContactListWidgetModel->setSpacing(1);
     ui->ContactListWidgetModel->setIconSize(QSize(iconSize, iconSize));
+    fillListWidgetView(contactList);
     setListView();
-    
     connect(callScreen, SIGNAL(rejected()), this, SLOT(cancelCall()));
 }
 
@@ -73,12 +75,16 @@ void MainWindow::fillListWidgetView(const QVector<Contact> &list) {
 }
 
 void MainWindow::setAlphabeticalJumbButtomBlock(const QVector<char> &letters) {
+    auto * alphabeticalJumpLayout = new QVBoxLayout(ui->alphabeticalJumpScrollAreaContents);
+    ui->alphabeticalJumpScrollArea->setWidgetResizable(true);
+    alphabeticalJumpLayout->setSpacing(1);
+    alphabeticalJumpLayout->setAlignment(Qt::AlignmentFlag::AlignCenter);
     for(const char &iter : letters){
         QPushButton *but = new QPushButton(QString(iter));
-        connect(but, SIGNAL(clicked()), this, SLOT(on_Aplhabetical_buttonClicked()));
-        ui->alphabeticalJump->addWidget(but);
+        but->setFixedSize(alphabeticalJumpButtonSize);
+        connect(but, SIGNAL(clicked()), this, SLOT(Aplhabetical_buttonClicked()));
+        alphabeticalJumpLayout->addWidget(but);
     }
-    
 }
 
 void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize) {
@@ -206,11 +212,10 @@ void MainWindow::on_ContactListWidgetModel_itemClicked(QListWidgetItem *item) {
     callScreen->show();
     contactListProvider->call(dynamic_cast<CustomItem *>(item)->getId());
     callScreen->hide();
-    
     item->setSelected(false);
 }
 
-void MainWindow::on_Aplhabetical_buttonClicked() {
+void MainWindow::Aplhabetical_buttonClicked() {
     char letter = qobject_cast<QPushButton *>(sender())->text().front().unicode();
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
         if(ui->ContactListWidgetModel->item(i)->text().toUpper().front().unicode() == letter){

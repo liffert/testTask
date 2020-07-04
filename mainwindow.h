@@ -27,7 +27,7 @@ private slots:
     void favorite_button_clicked();
     void on_showFavorite_clicked();
     void on_ContactListWidgetModel_itemClicked(QListWidgetItem *item);
-    void on_Aplhabetical_buttonClicked();
+    void Aplhabetical_buttonClicked();
     
 private:  
     Ui::MainWindow *ui;
@@ -40,9 +40,10 @@ private:
     QIcon getItemIcon(const QString &path);
     QSize listItemSize;
     QSize gridItemZize;
-    const int iconSize = 40;
+    QSize alphabeticalJumpButtonSize;
     QSize itemButtonSizeListMode;
     QSize itemButtonSizeGridMode;
+    const int iconSize = 40;
     void setItemSize(const QSize &size, const QSize &buttonSize);
     bool listView = true;
     bool onlyFavorite = false;
