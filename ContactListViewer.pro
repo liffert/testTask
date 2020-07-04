@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,11 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     contactlistprovider.cpp \
+    database.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     contactlistprovider.h \
+    database.h \
     mainwindow.h
 
 FORMS += \
