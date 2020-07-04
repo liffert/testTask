@@ -24,7 +24,7 @@ QVector<Contact> ContactListProvider::getActualContactList() {
 
 ContactListProvider::ContactListProvider() {}
 
-void ContactListProvider::call(int id) {
+void ContactListProvider::call(const int id) {
     callState = true;
     qDebug() << "Calling to " << id << " " << std::find_if(list.begin(), list.end(), [id](Contact &obj){
         return obj.getId() == id;

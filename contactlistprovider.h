@@ -10,7 +10,7 @@ private:
 public:
     QVector<Contact> getActualContactList();
     ContactListProvider();
-    void call(int id);
+    void call(const int id);
     void endCall();
 };
 
