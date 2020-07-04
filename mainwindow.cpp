@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
-#include <QListWidget>
 #include <QPainter>
 #include <QPixmap>
 #include <QImage>
@@ -9,6 +8,17 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow) {
+    
+    itemButtonSizeGridMode.setWidth(25);
+    itemButtonSizeGridMode.setHeight(25);
+    itemButtonSizeListMode.setWidth(50);
+    itemButtonSizeListMode.setHeight(50);
+    listItemSize.setWidth(50);
+    listItemSize.setHeight(50);
+    gridItemZize.setWidth(100);
+    gridItemZize.setHeight(100);
+    
+    favorite = new Database("db.Favorite");
     
     ui->setupUi(this);
     callScreen = new QMessageBox(this);
@@ -30,7 +40,9 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list) {
+    QStringList actualContactList;
     for(const auto &iter : list){
+        actualContactList.push_back(iter.first);
         QListWidgetItem *item = new QListWidgetItem();
         item->setIcon(getItemIcon(iter.second));
         item->setText(iter.first);
@@ -38,13 +50,23 @@ void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list
         item->setBackground(QColor(77, 77, 77));
         item->setForeground(Qt::GlobalColor::white);
         ui->ContactListWidgetModel->addItem(item);
+        QPushButton *but = new QPushButton();
+        if(favorite->exist(iter.first)){
+            but->setText("F");
+        }
+        else{
+            but->setText("NF");
+        }
+        connect(but, SIGNAL(clicked()), this, SLOT(favorite_button_clicked()));
+        ui->ContactListWidgetModel->setItemWidget(item, but);
     }
+    favorite->rebuildDatabase(actualContactList);
 }
 
-void MainWindow::setItemSize(const int size) {
-    QSize qsize(size, size);
+void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize) {
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
-        ui->ContactListWidgetModel->item(i)->setSizeHint(qsize);
+        ui->ContactListWidgetModel->item(i)->setSizeHint(size);
+        qobject_cast<QPushButton *>(ui->ContactListWidgetModel->itemWidget(ui->ContactListWidgetModel->item(i)))->setFixedSize(buttonSize);
     }
 }
 
@@ -82,11 +104,30 @@ void MainWindow::on_searchLine_textEdited(const QString &arg1) {
 void MainWindow::on_changeView_clicked() {
     if(listView){
         setGridView();
+        ui->changeView->setText("Change view(List)");
     }
     else{
-        setListView();   
+        setListView();
+        ui->changeView->setText("Change view(Grid)");
     }
     listView = !listView;
+}
+
+void MainWindow::favorite_button_clicked(){
+    QPushButton *but = qobject_cast<QPushButton *>(sender());
+    for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
+        if(ui->ContactListWidgetModel->itemWidget(ui->ContactListWidgetModel->item(i)) == but){
+            if(favorite->exist(ui->ContactListWidgetModel->item(i)->text())){
+                but->setText("NF");
+                favorite->del(ui->ContactListWidgetModel->item(i)->text());    
+            }
+            else{
+                but->setText("F");
+                favorite->insert(ui->ContactListWidgetModel->item(i)->text()); 
+            }
+            break;
+        }
+    }
 }
 
 
@@ -105,11 +146,32 @@ QIcon MainWindow::getItemIcon(const QString &path) {
 
 void MainWindow::setListView() {
     ui->ContactListWidgetModel->setViewMode(QListWidget::ListMode);
-    setItemSize(listItemSize);
+    setItemSize(listItemSize, itemButtonSizeListMode);
 }
 
 void MainWindow::setGridView() {
     ui->ContactListWidgetModel->setViewMode(QListWidget::IconMode);
     ui->ContactListWidgetModel->setDragDropMode(QListWidget::NoDragDrop);
-    setItemSize(gridItemZize);
+    ui->ContactListWidgetModel->setWordWrap(true);
+    setItemSize(gridItemZize, itemButtonSizeGridMode);
+}
+
+void MainWindow::on_showFavorite_clicked() {
+    if(!onlyFavorite){
+        on_searchLine_textEdited(ui->searchLine->text());
+    }
+    else{
+        for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
+            if(!favorite->exist(ui->ContactListWidgetModel->item(i)->text())){
+                ui->ContactListWidgetModel->item(i)->setHidden(true);
+            }
+        }
+    }
+    if(onlyFavorite){
+        ui->showFavorite->setText("Show all");
+    }
+    else {
+        ui->showFavorite->setText("Show favorite");
+    }
+    onlyFavorite = !onlyFavorite;
 }

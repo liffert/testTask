@@ -3,6 +3,8 @@
 #include <QMainWindow>
 #include "contactlistprovider.h"
 #include <QMessageBox>
+#include <QListWidget>
+#include "database.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,18 +22,24 @@ private slots:
     void cancelCall();
     void on_searchLine_textEdited(const QString &arg1);
     void on_changeView_clicked();
-
+    void favorite_button_clicked();
+    void on_showFavorite_clicked();
+    
 private:
     Ui::MainWindow *ui;
     QMessageBox *callScreen;
     ContactListProvider * contactListProvider;
+    Database * favorite;
     void fillListWidgetView(const QVector<QPair<QString, QString>> &list);
     QIcon getItemIcon(const QString &path);
-    const int listItemSize = 50;
-    const int gridItemZize = 75;
+    QSize listItemSize;
+    QSize gridItemZize;
     const int iconSize = 40;
-    void setItemSize(const int size);
+    QSize itemButtonSizeListMode;
+    QSize itemButtonSizeGridMode;
+    void setItemSize(const QSize &size, const QSize &buttonSize);
     bool listView = true;
+    bool onlyFavorite = true;
     void setListView();
     void setGridView();
 };
