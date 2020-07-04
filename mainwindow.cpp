@@ -5,6 +5,7 @@
 #include <QPixmap>
 #include <QImage>
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow) {
@@ -39,20 +40,21 @@ MainWindow::~MainWindow() {
     delete callScreen;
 }
 
-void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list) {
+void MainWindow::fillListWidgetView(const QVector<Contact> &list) {
     QStringList actualContactList;
     for(const auto &iter : list){
-        actualContactList.push_back(iter.first);
-        QListWidgetItem *item = new QListWidgetItem();
-        item->setIcon(getItemIcon(iter.second));
-        item->setText(iter.first);
+        actualContactList.push_back(iter.getName());
+        CustomItem *item = new CustomItem();
+        item->setId(iter.getId());
+        item->setIcon(getItemIcon(iter.getIconPath()));
+        item->setText(iter.getName());
         item->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
         item->setBackground(QColor(77, 77, 77));
         item->setForeground(Qt::GlobalColor::white);
         ui->ContactListWidgetModel->addItem(item);
         QPushButton *but = new QPushButton();
         but->setStyleSheet("background-color: #4D4D4D;");
-        if(favorite->exist(iter.first)){
+        if(favorite->exist(iter.getName())){
             but->setIcon(QIcon(":/favoriteIcons/appIcons/F"));
         }
         else{
@@ -69,16 +71,6 @@ void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize) {
         ui->ContactListWidgetModel->item(i)->setSizeHint(size);
         qobject_cast<QPushButton *>(ui->ContactListWidgetModel->itemWidget(ui->ContactListWidgetModel->item(i)))->setFixedSize(buttonSize);
     }
-}
-
-
-void MainWindow::on_ContactListWidgetModel_clicked(const QModelIndex &index) {
-    callScreen->setText("Calling to " + ui->ContactListWidgetModel->item(index.row())->text());
-    callScreen->show();
-    contactListProvider->call(index.row());
-    callScreen->hide();
-    
-    ui->ContactListWidgetModel->item(index.row())->setSelected(false);
 }
 
 void MainWindow::cancelCall() {
@@ -192,4 +184,13 @@ void MainWindow::on_showFavorite_clicked() {
     else {
         ui->showFavorite->setText("Show favorite");
     }
+}
+
+void MainWindow::on_ContactListWidgetModel_itemClicked(QListWidgetItem *item) {
+    callScreen->setText("Calling to " + item->text());
+    callScreen->show();
+    contactListProvider->call(dynamic_cast<CustomItem *>(item)->getId());
+    callScreen->hide();
+    
+    item->setSelected(false);
 }
