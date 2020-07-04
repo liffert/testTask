@@ -17,18 +17,24 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0" colspan="3">
+     <widget class="QListWidget" name="ContactListWidgetModel">
+      <property name="editTriggers">
+       <set>QAbstractItemView::NoEditTriggers</set>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QLineEdit" name="searchLine">
       <property name="placeholderText">
        <string>Search line. Put your text here.</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="showFavorite">
-      <property name="text">
-       <string>Show favorite</string>
       </property>
      </widget>
     </item>
@@ -39,15 +45,35 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="0" colspan="3">
-     <widget class="QListWidget" name="ContactListWidgetModel">
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="showFavorite">
+      <property name="text">
+       <string>Show favorite</string>
       </property>
      </widget>
     </item>
     <item row="2" column="3">
-     <layout class="QVBoxLayout" name="alphabeticalJump"/>
+     <widget class="QScrollArea" name="alphabeticalJumpScrollArea">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="alphabeticalJumpScrollAreaContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>73</width>
+         <height>551</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
