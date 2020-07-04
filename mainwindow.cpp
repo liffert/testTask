@@ -9,8 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow) {
     
-    itemButtonSizeGridMode.setWidth(25);
-    itemButtonSizeGridMode.setHeight(25);
+    itemButtonSizeGridMode.setWidth(20);
+    itemButtonSizeGridMode.setHeight(20);
     itemButtonSizeListMode.setWidth(50);
     itemButtonSizeListMode.setHeight(50);
     listItemSize.setWidth(50);
@@ -51,6 +51,7 @@ void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list
         item->setForeground(Qt::GlobalColor::white);
         ui->ContactListWidgetModel->addItem(item);
         QPushButton *but = new QPushButton();
+        but->setStyleSheet("background-color: #4D4D4D;");
         if(favorite->exist(iter.first)){
             but->setIcon(QIcon(":/favoriteIcons/appIcons/F"));
         }
@@ -99,7 +100,7 @@ void MainWindow::on_searchLine_textEdited(const QString &arg1) {
         }
     }
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
-        if(ui->ContactListWidgetModel->item(i)->text().toStdString().find(arg1.toStdString()) == std::string::npos){
+        if(ui->ContactListWidgetModel->item(i)->text().toLower().toStdString().find(arg1.toLower().toStdString()) == std::string::npos){
             ui->ContactListWidgetModel->item(i)->setHidden(true);
         }
         else {
@@ -170,7 +171,6 @@ void MainWindow::setListView() {
 void MainWindow::setGridView() {
     ui->ContactListWidgetModel->setViewMode(QListWidget::IconMode);
     ui->ContactListWidgetModel->setDragDropMode(QListWidget::NoDragDrop);
-    ui->ContactListWidgetModel->setWordWrap(true);
     setItemSize(gridItemZize, itemButtonSizeGridMode);
 }
 
