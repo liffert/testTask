@@ -52,10 +52,10 @@ void MainWindow::fillListWidgetView(const QVector<QPair<QString, QString>> &list
         ui->ContactListWidgetModel->addItem(item);
         QPushButton *but = new QPushButton();
         if(favorite->exist(iter.first)){
-            but->setText("F");
+            but->setIcon(QIcon(":/favoriteIcons/appIcons/F"));
         }
         else{
-            but->setText("NF");
+            but->setIcon(QIcon(":/favoriteIcons/appIcons/NF"));
         }
         connect(but, SIGNAL(clicked()), this, SLOT(favorite_button_clicked()));
         ui->ContactListWidgetModel->setItemWidget(item, but);
@@ -88,7 +88,14 @@ void MainWindow::cancelCall() {
 void MainWindow::on_searchLine_textEdited(const QString &arg1) {
     if(arg1 == ""){
         for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
-            ui->ContactListWidgetModel->item(i)->setHidden(false);
+            if(onlyFavorite){
+                if(favorite->exist(ui->ContactListWidgetModel->item(i)->text())){
+                    ui->ContactListWidgetModel->item(i)->setHidden(false);
+                }
+            }
+            else{
+                ui->ContactListWidgetModel->item(i)->setHidden(false); 
+            }
         }
     }
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
@@ -96,7 +103,14 @@ void MainWindow::on_searchLine_textEdited(const QString &arg1) {
             ui->ContactListWidgetModel->item(i)->setHidden(true);
         }
         else {
-            ui->ContactListWidgetModel->item(i)->setHidden(false);
+            if(onlyFavorite){
+                if(favorite->exist(ui->ContactListWidgetModel->item(i)->text())){
+                    ui->ContactListWidgetModel->item(i)->setHidden(false);
+                }
+            }
+            else{
+                ui->ContactListWidgetModel->item(i)->setHidden(false);
+            }
         }
     }
 }
@@ -118,13 +132,17 @@ void MainWindow::favorite_button_clicked(){
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
         if(ui->ContactListWidgetModel->itemWidget(ui->ContactListWidgetModel->item(i)) == but){
             if(favorite->exist(ui->ContactListWidgetModel->item(i)->text())){
-                but->setText("NF");
-                favorite->del(ui->ContactListWidgetModel->item(i)->text());    
+                but->setIcon(QIcon(":/favoriteIcons/appIcons/NF"));
+                favorite->del(ui->ContactListWidgetModel->item(i)->text());
+                if(onlyFavorite){
+                    ui->ContactListWidgetModel->item(i)->setHidden(true);
+                }
             }
             else{
-                but->setText("F");
+                but->setIcon(QIcon(":/favoriteIcons/appIcons/F"));
                 favorite->insert(ui->ContactListWidgetModel->item(i)->text()); 
             }
+            ui->ContactListWidgetModel->item(i)->setSelected(false);
             break;
         }
     }
@@ -157,6 +175,7 @@ void MainWindow::setGridView() {
 }
 
 void MainWindow::on_showFavorite_clicked() {
+    onlyFavorite = !onlyFavorite;
     if(!onlyFavorite){
         on_searchLine_textEdited(ui->searchLine->text());
     }
@@ -173,5 +192,4 @@ void MainWindow::on_showFavorite_clicked() {
     else {
         ui->showFavorite->setText("Show favorite");
     }
-    onlyFavorite = !onlyFavorite;
 }

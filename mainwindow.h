@@ -39,7 +39,7 @@ private:
     QSize itemButtonSizeGridMode;
     void setItemSize(const QSize &size, const QSize &buttonSize);
     bool listView = true;
-    bool onlyFavorite = true;
+    bool onlyFavorite = false;
     void setListView();
     void setGridView();
 };
