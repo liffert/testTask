@@ -10,4 +10,8 @@
         <file>img/icon8.png</file>
         <file>img/icon9.png</file>
     </qresource>
+    <qresource prefix="/favoriteIcons">
+        <file>appIcons/F.png</file>
+        <file>appIcons/NF.png</file>
+    </qresource>
 </RCC>
