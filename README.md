@@ -12,7 +12,7 @@ These were made:
 6) Local filter: text field by using which we may filter out contacts (great if “on the fly”).
     Notice: on the fly local filter. In "show all" mode filter show all contacts which have letter or string what
     was inputted in search field. In "show only favorites" mode filter show only suitable contacts with favorite
-    "mark". If you change show mode, you do not need to input your search again.
+    "mark". If you change show mode, you do not need to input your search again. Does not depend on letters case.
 7) Alphabetical jump: service provides getAvailableLetters chars and sorted contact list.
 
 Tech-stack: Qt + QtWidgets. IDE: QtCreator on windows with MSVC2019 compiler.
