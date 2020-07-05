@@ -4,7 +4,7 @@ These were made:
 2) Circle contact list pictures at the left side.
 3) Call function: by tap you call ContactListProvider::call(id) and indicate somehow active call.
     Notice: if you do not cancel call for 10 seconds ContactListProvider::call(id) will cancel call by itself
-    to show programm ability to process situations when your interlocutor cancel this call. For canceling call
+    to show program ability to process situations when your interlocutor cancel this call. For canceling call
     by yourself to ContactListProvider was added function endCall().
 4) Grid view switcher for our contact viewer (here contact pictures “must have”).
 5) Favorites: possibility to add to favorites (use star/plus button) and show only favorites.
