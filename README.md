@@ -15,4 +15,4 @@ These were made:
     "mark". If you change show mode, you do not need to input your search again.
 7) Alphabetical jump: service provides getAvailableLetters chars and sorted contact list.
 
-Tech-stack: Qt + QtWidgets.
+Tech-stack: Qt + QtWidgets. IDE: QtCreator on windows with MSVC2019 compiler.
