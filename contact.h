@@ -7,7 +7,7 @@ private:
     QString iconPath;
     int id;
 public:
-    Contact(QString name, QString iconPath, int id);
+    Contact(const QString name, const QString iconPath, const int id);
     QString getName() const;
     QString getIconPath() const;
     int getId() const;

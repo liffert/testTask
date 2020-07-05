@@ -9,7 +9,6 @@ private:
     std::atomic<bool> callState;
 public:
     QVector<Contact> getActualContactList();
-    ContactListProvider();
     void call(const int id);
     void endCall();
 };

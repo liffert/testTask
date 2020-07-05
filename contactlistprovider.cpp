@@ -3,7 +3,7 @@
 #include <chrono>
 
 
-QVector<Contact> ContactListProvider::getActualContactList() {
+QVector<Contact> ContactListProvider::getActualContactList(){
     list = {
         {"Sam Bradly", ":/icons/img/icon1", 1},
         {"Lucy Carter", ":/icons/img/icon2", 2},
@@ -21,8 +21,6 @@ QVector<Contact> ContactListProvider::getActualContactList() {
     };
     return list;
 }
-
-ContactListProvider::ContactListProvider() {}
 
 void ContactListProvider::call(const int id) {
     callState = true;

@@ -5,6 +5,6 @@ class CustomItem : public QListWidgetItem {
 private:
     int id;
 public:
-    int getId();
-    void setId(int id);
+    int getId() const;
+    void setId(const int id);
 };  

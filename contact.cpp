@@ -1,6 +1,6 @@
 #include "contact.h"
 
-Contact::Contact(QString name, QString iconPath, int id) : name(name), iconPath(iconPath), id(id) {}
+Contact::Contact(const QString name, const QString iconPath, const int id) : name(name), iconPath(iconPath), id(id) {}
 
 QString Contact::getName() const {
     return name;

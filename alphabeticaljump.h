@@ -4,7 +4,6 @@
 
 class AlphabeticalJump {
 public:
-    AlphabeticalJump();
-    QVector<char> getAvaliableLetters(QVector<Contact> &list);
+    QVector<char> getAvaliableLetters(QVector<Contact> &list) const;
 };
 

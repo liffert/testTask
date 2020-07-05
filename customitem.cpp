@@ -1,9 +1,9 @@
 #include "customitem.h"
 
-int CustomItem::getId() {
+int CustomItem::getId() const{
     return id;    
 }
 
-void CustomItem::setId(int id) {
+void CustomItem::setId(const int id) {
     this->id = id;
 }
