@@ -11,8 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
       ui(new Ui::MainWindow) {
     
     ui->setupUi(this);
-    itemButtonSizeGridMode.setWidth(20);
-    itemButtonSizeGridMode.setHeight(20);
+    itemButtonSizeGridMode.setWidth(70);
+    itemButtonSizeGridMode.setHeight(40);
     itemButtonSizeListMode.setWidth(50);
     itemButtonSizeListMode.setHeight(50);
     alphabeticalJumpButtonSize.setWidth(45);
@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     listItemSize.setWidth(50);
     listItemSize.setHeight(50);
-    gridItemZize.setWidth(100);
+    gridItemZize.setWidth(300);
     gridItemZize.setHeight(100);
     
     favorite = new Database("db.Favorite");
@@ -56,7 +56,6 @@ void MainWindow::fillListWidgetView(const QVector<Contact> &list) {
         item->setId(iter.getId());
         item->setIcon(getItemIcon(iter.getIconPath()));
         item->setText(iter.getName());
-        item->setTextAlignment(Qt::AlignmentFlag::AlignCenter);
         item->setBackground(QColor(77, 77, 77));
         item->setForeground(Qt::GlobalColor::white);
         ui->ContactListWidgetModel->addItem(item);
@@ -87,9 +86,10 @@ void MainWindow::setAlphabeticalJumbButtomBlock(const QVector<char> &letters) {
     }
 }
 
-void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize) {
+void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize, int alignment) {
     for(int i = 0; i < ui->ContactListWidgetModel->count(); i++){
         ui->ContactListWidgetModel->item(i)->setSizeHint(size);
+        ui->ContactListWidgetModel->item(i)->setTextAlignment(alignment);
         qobject_cast<QPushButton *>(ui->ContactListWidgetModel->itemWidget(ui->ContactListWidgetModel->item(i)))->setFixedSize(buttonSize);
     }
 }
@@ -178,13 +178,13 @@ QIcon MainWindow::getItemIcon(const QString &path) {
 
 void MainWindow::setListView() {
     ui->ContactListWidgetModel->setViewMode(QListWidget::ListMode);
-    setItemSize(listItemSize, itemButtonSizeListMode);
+    setItemSize(listItemSize, itemButtonSizeListMode, Qt::AlignmentFlag::AlignCenter);
 }
 
 void MainWindow::setGridView() {
     ui->ContactListWidgetModel->setViewMode(QListWidget::IconMode);
     ui->ContactListWidgetModel->setDragDropMode(QListWidget::NoDragDrop);
-    setItemSize(gridItemZize, itemButtonSizeGridMode);
+    setItemSize(gridItemZize, itemButtonSizeGridMode, Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignBottom);
 }
 
 void MainWindow::on_showFavorite_clicked() {

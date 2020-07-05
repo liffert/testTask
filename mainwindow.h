@@ -35,8 +35,10 @@ private:
     ContactListProvider * contactListProvider;
     Database * favorite;
     AlphabeticalJump * alphabeticalJump;
+    
     void fillListWidgetView(const QVector<Contact> &list);
     void setAlphabeticalJumbButtomBlock(const QVector<char> &letters);
+    
     QIcon getItemIcon(const QString &path);
     QSize listItemSize;
     QSize gridItemZize;
@@ -44,7 +46,8 @@ private:
     QSize itemButtonSizeListMode;
     QSize itemButtonSizeGridMode;
     const int iconSize = 40;
-    void setItemSize(const QSize &size, const QSize &buttonSize);
+    
+    void setItemSize(const QSize &size, const QSize &buttonSize, int alignment);
     bool listView = true;
     bool onlyFavorite = false;
     void setListView();
