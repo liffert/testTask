@@ -1,5 +1,5 @@
 #pragma once
-#include <contact.h>
+#include "contact.h"
 #include <QVector>
 
 class AlphabeticalJump {
