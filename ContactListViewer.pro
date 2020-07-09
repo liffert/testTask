@@ -20,17 +20,17 @@ SOURCES += \
     contact.cpp \
     contactlistprovider.cpp \
     customitem.cpp \
-    database.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    viewmodel.cpp
 
 HEADERS += \
     alphabeticaljump.h \
     contact.h \
     contactlistprovider.h \
     customitem.h \
-    database.h \
-    mainwindow.h
+    mainwindow.h \
+    viewmodel.h
 
 FORMS += \
     mainwindow.ui
