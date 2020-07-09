@@ -1,7 +1,7 @@
 #pragma once
-#include <QListWidgetItem>
+#include <QStandardItem>
 
-class CustomItem : public QListWidgetItem {
+class CustomItem : public QStandardItem {
 private:
     int id;
 public:
