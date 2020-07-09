@@ -2,12 +2,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QListWidget>
-#include "contactlistprovider.h"
-#include "database.h"
-#include "customitem.h"
-#include "contact.h"
-#include "alphabeticaljump.h"
+#include "viewmodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,20 +21,22 @@ private slots:
     void on_changeView_clicked();
     void favorite_button_clicked();
     void on_showFavorite_clicked();
-    void on_ContactListWidgetModel_itemClicked(QListWidgetItem *item);
     void Aplhabetical_buttonClicked();
+    
+    void on_ContactListView_clicked(const QModelIndex &index);
+    void hideRow(const int row, const bool hide);
     
 private:  
     Ui::MainWindow *ui;
     QMessageBox *callScreen;
-    ContactListProvider * contactListProvider;
-    Database * favorite;
-    AlphabeticalJump * alphabeticalJump;
+    ViewModel *viewModel;
+    void resizeEvent(QResizeEvent*);
+    
     
     void fillListWidgetView(const QVector<Contact> &list);
     void setAlphabeticalJumbButtomBlock(const QVector<char> &letters);
     
-    QIcon getItemIcon(const QString &path);
+
     QSize listItemSize;
     QSize gridItemZize;
     QSize alphabeticalJumpButtonSize;
@@ -47,9 +44,11 @@ private:
     QSize itemButtonSizeGridMode;
     const int iconSize = 40;
     
-    void setItemSize(const QSize &size, const QSize &buttonSize, int alignment);
+    void setItemSize(const QSize &size, const QSize &buttonSize, Qt::Alignment alignment);
     bool listView = true;
     bool onlyFavorite = false;
     void setListView();
     void setGridView();
+    void addItemButtons();
+    void update();
 };
