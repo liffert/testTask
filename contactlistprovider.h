@@ -11,5 +11,7 @@ public:
     QVector<Contact> getActualContactList();
     void call(const int id);
     void endCall();
+    bool contactInFavoritList(const int id);
+    void setContactFavoriteState(const int id, const bool favorite);
 };
 
