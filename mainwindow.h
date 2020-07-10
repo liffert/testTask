@@ -22,7 +22,6 @@ private slots:
     void favorite_button_clicked();
     void on_showFavorite_clicked();
     void Aplhabetical_buttonClicked();
-    
     void on_ContactListView_clicked(const QModelIndex &index);
     void hideRow(const int row, const bool hide);
     
@@ -30,13 +29,11 @@ private:
     Ui::MainWindow *ui;
     QMessageBox *callScreen;
     ViewModel *viewModel;
+
     void resizeEvent(QResizeEvent*);
     
-    
-    void fillListWidgetView(const QVector<Contact> &list);
     void setAlphabeticalJumbButtomBlock(const QVector<char> &letters);
     
-
     QSize listItemSize;
     QSize gridItemZize;
     QSize alphabeticalJumpButtonSize;
@@ -45,8 +42,11 @@ private:
     const int iconSize = 40;
     
     void setItemSize(const QSize &size, const QSize &buttonSize, Qt::Alignment alignment);
+    
     bool listView = true;
     bool onlyFavorite = false;
+    
+    void createAlphabeticalJumbButtomBlock();
     void setListView();
     void setGridView();
     void addItemButtons();

@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ContactListView->setSpacing(1);
     ui->ContactListView->setIconSize(QSize(iconSize, iconSize));
     ui->ContactListView->setModel(viewModel->getModel());
+    createAlphabeticalJumbButtomBlock();
     update();
     setListView();
     connect(callScreen, SIGNAL(rejected()), this, SLOT(cancelCall()));
@@ -43,15 +44,16 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setAlphabeticalJumbButtomBlock(const QVector<char> &letters) {
-    auto * alphabeticalJumpLayout = new QVBoxLayout(ui->alphabeticalJumpScrollAreaContents);
-    ui->alphabeticalJumpScrollArea->setWidgetResizable(true);
-    alphabeticalJumpLayout->setSpacing(1);
-    alphabeticalJumpLayout->setAlignment(Qt::AlignmentFlag::AlignCenter);
+    QLayoutItem *child;
+    while ((child = ui->alphabeticalJumpScrollAreaContents->layout()->takeAt(0)) != 0) {
+        delete child->widget();
+        delete child;
+    }
     for(const char &iter : letters){
         QPushButton *but = new QPushButton(QString(iter));
         but->setFixedSize(alphabeticalJumpButtonSize);
         connect(but, SIGNAL(clicked()), this, SLOT(Aplhabetical_buttonClicked()));
-        alphabeticalJumpLayout->addWidget(but);
+        ui->alphabeticalJumpScrollAreaContents->layout()->addWidget(but);
     }
 }
 
@@ -61,6 +63,13 @@ void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize, Qt::Ali
         viewModel->setItemTextAlignment(alignment, i);
         qobject_cast<QPushButton *>(ui->ContactListView->indexWidget(viewModel->getItemIndex(i)))->setFixedSize(buttonSize);
     }
+}
+
+void MainWindow::createAlphabeticalJumbButtomBlock() {
+    auto * alphabeticalJumpLayout = new QVBoxLayout(ui->alphabeticalJumpScrollAreaContents);
+    ui->alphabeticalJumpScrollArea->setWidgetResizable(true);
+    alphabeticalJumpLayout->setSpacing(1);
+    alphabeticalJumpLayout->setAlignment(Qt::AlignmentFlag::AlignCenter);
 }
 
 void MainWindow::cancelCall() {
@@ -89,7 +98,7 @@ void MainWindow::favorite_button_clicked(){
     for(int i = 0; i < viewModel->getCount(); i++){
         auto index = viewModel->getItemIndex(i, 0);
         if(ui->ContactListView->indexWidget(index) == but){
-            if(viewModel->favoritePressed(index, onlyFavorite)){
+            if(viewModel->setFavoriteState(index, onlyFavorite)){
                 dynamic_cast<QPushButton *>(ui->ContactListView->indexWidget(index))->setIcon(QIcon(":/favoriteIcons/appIcons/F"));
             }
             else{
@@ -132,6 +141,12 @@ void MainWindow::update() {
     auto letters = viewModel->updateWithAlphabeticalJumpService();
     setAlphabeticalJumbButtomBlock(letters);
     addItemButtons();
+    if(listView){
+        setListView();
+    }
+    else{
+        setGridView();
+    }
 }
 
 void MainWindow::on_showFavorite_clicked() {
