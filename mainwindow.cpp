@@ -61,7 +61,10 @@ void MainWindow::setItemSize(const QSize &size, const QSize &buttonSize, Qt::Ali
     for(int i = 0; i < viewModel->getCount(); i++){
         viewModel->setItemSize(size, i);
         viewModel->setItemTextAlignment(alignment, i);
-        qobject_cast<QPushButton *>(ui->ContactListView->indexWidget(viewModel->getItemIndex(i)))->setFixedSize(buttonSize);
+        QPushButton *but = qobject_cast<QPushButton *>(ui->ContactListView->indexWidget(viewModel->getItemIndex(i)));
+        if (but != nullptr){
+            but->setFixedSize(buttonSize);
+        }
     }
 }
 
