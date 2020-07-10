@@ -1,3 +1,16 @@
+Update:
+
+1) Program was refactored to model/view. But we still must use update function from view after each
+update from model, because view must add buttons for add/remove favorite and update alphabetical jump button
+block.
+2) Add repaint grid view on resize event to fix problem: " GridView means that contact tile size is fixed but 
+when you change window size it tries to fill free horizontal space (maybe with Model you may use TableView, 
+check QML GridView for reference)"
+3) Because all data handling was moved to viewModel class we can use another view with this model and do not need
+rewrite data handling algorithms. All what we need it write ui logic to interaction with viewModel.
+4) On my linux system (Manjaro linux arch based distribution) with g++ compiler version: 10.1.0 and 
+qt version: 5.15.0-0 project compiles fine and I do not know why you have got problem with this.
+
 These were made:
 
 1) Absolute minimal valuable product would show contact list with names at the center of each cell.
