@@ -28,11 +28,11 @@ QStandardItemModel *ViewModel::getModel() const{
     return model;
 }
 
-const QModelIndex ViewModel::getItemIndex(const int row, const int column) {
+const QModelIndex ViewModel::getItemIndex(const int row, const int column) const{
     return model->index(row, column);
 }
 
-const QStandardItem *ViewModel::getItem(const QModelIndex &index) const {
+const QStandardItem *ViewModel::getItem(const QModelIndex &index) const{
     return model->itemFromIndex(index);
 }
 
@@ -68,7 +68,7 @@ void ViewModel::search(const QString &arg1, bool onlyFavorite) {
     }
 }
 
-bool ViewModel::favoritePressed(const QModelIndex &index, bool onlyFavorite) {
+bool ViewModel::setFavoriteState(const QModelIndex &index, bool onlyFavorite) {
     int id = dynamic_cast<CustomItem *>(model->itemFromIndex(index))->getId();
     bool state = contactListProvider->contactInFavoritList(id);
     contactListProvider->setContactFavoriteState(id, !state);
@@ -78,7 +78,7 @@ bool ViewModel::favoritePressed(const QModelIndex &index, bool onlyFavorite) {
     return !state;
 }
 
-void ViewModel::call(const QModelIndex &index) {
+void ViewModel::call(const QModelIndex &index) const{
     contactListProvider->call(dynamic_cast<CustomItem *>(model->itemFromIndex(index))->getId());
 }
 
@@ -97,7 +97,7 @@ void ViewModel::favoriteFilter(const bool onlyFavorite, const QString &searchLin
     
 }
 
-bool ViewModel::isFavoriteItem(const QModelIndex &index) {
+bool ViewModel::isFavoriteItem(const QModelIndex &index) const{
     return contactListProvider->contactInFavoritList(dynamic_cast<CustomItem *>(model->itemFromIndex(index))->getId());
 }
 
@@ -105,12 +105,13 @@ void ViewModel::endCall() {
     contactListProvider->endCall();
 }
 
-QModelIndex ViewModel::jumpTo(const char letter) {
+QModelIndex ViewModel::jumpTo(const char letter) const{
     for(int i = 0; i < model->rowCount(); i++){
         if(model->item(i)->text().toUpper().front().unicode() == letter){
             return model->index(i, 0);
         }
     }
+    return model->index(0, 0);
 }
 
 void ViewModel::setItemSize(const QSize &size, const int row, const int column) {
@@ -121,7 +122,7 @@ void ViewModel::setItemTextAlignment(const Qt::Alignment alignment, const int ro
     model->item(row, column)->setTextAlignment(alignment);
 }
 
-int ViewModel::getCount() const {
+int ViewModel::getCount() const{
     return model->rowCount();
 }
 
