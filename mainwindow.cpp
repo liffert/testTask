@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     delete ui;
     delete callScreen;
+    delete viewModel;
 }
 
 void MainWindow::setAlphabeticalJumbButtomBlock(const QVector<char> &letters) {
